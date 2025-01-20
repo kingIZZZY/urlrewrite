@@ -31,7 +31,7 @@
   },
   "require": {
     "php": ">=8.0",
-    "psr/http-message": "^1.0"
+    "psr/http-message": "^2.0"
   },
   "require-dev": {
     "hyperf/http-server": "^3.0",
