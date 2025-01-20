@@ -49,7 +49,7 @@ class UrlRewrite
 
     }
 
-    public function rewrite(RequestInterface $request, array &$variables = null): RequestInterface
+    public function rewrite(RequestInterface $request, ?array &$variables = null): RequestInterface
     {
         $host = $request->getHeader('host')[0] ?? '';
         if (!empty($host) && !empty($rule = ($this->staticRules['host'][$host] ?? null))) {
