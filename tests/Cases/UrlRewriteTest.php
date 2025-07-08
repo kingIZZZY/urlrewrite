@@ -289,6 +289,29 @@ class UrlRewriteTest extends TestCase
                     $subdomain = $arguments['subdomain'] ?? '';
                     return (string)$request->getUri() === '/rewrite/matchMethodAndHost/' . $subdomain;
                 },
+            ],
+            [
+                'name' => 'useDefaultHost',
+                'rule' => UrlRewriteRule::matchHost('example.com')->rewriteTo('/rewrite/useDefaultHost/{host}'),
+                'got' => [
+                    [
+                        function (RequestInterface $request): RequestInterface {
+                            return $request->withHeader('Host', 'example.com')
+                                ->withUri(IncompleteUri::create('/matchMethodAndHost'));
+                        }
+                    ],
+                    [
+                        function (RequestInterface $request): RequestInterface {
+                            return $request->withHeader('Host', 'example2.com')
+                                ->withUri(IncompleteUri::create('/matchMethodAndHost'));
+                        },
+                        false
+                    ]
+                ],
+                'want' => function (RequestInterface $request, array $arguments): bool {
+                    $host = $request->getHeader('Host')[0] ?? '';
+                    return (string)$request->getUri() === sprintf('/rewrite/useDefaultHost/%s', $host);
+                },
             ]
         ];
     }

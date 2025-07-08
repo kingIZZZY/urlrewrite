@@ -72,7 +72,7 @@ class UrlRewriteRule
         $this->rewriteToFn(function (RequestInterface $request, array $variables = []) use (
             $path,
         ): RequestInterface {
-
+            $variables['host'] = $request->getHeader('Host')[0] ?? '';
             $path = str_replace(array_map(function ($key) {
                 return sprintf('{%s}', $key);
             }, array_keys($variables)), $variables, $path);
